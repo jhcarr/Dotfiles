@@ -1,0 +1,69 @@
+#! /bin/zsh
+
+## Justin Carr
+## 7/2/2013
+
+## _CHECK
+## Safely links dotfiles in ./src/
+
+# Function Definitions
+
+function check_src {
+    backup_dir
+    cd ./src/
+    for y in $(ls -a)
+    do
+        if [ "." != $y ] && [ ".." != $y ]
+        then
+            if [ -e ~/$y ] # does $y exist in the home dir?
+            then 
+                echo "$y already exists in ~/ ... Moving $y to .backupDotfiles."
+
+                if [ -d ~/$y ] # is $y a dir?
+                then
+                    cp -r ~/$y ~/.backupDotfiles/$y
+                    rm -r ~/$y
+		    link_dir $y
+                else
+                    cp ~/$y ~/.backupDotfiles/$y
+                    rm ~/$y
+		    ln -s $(pwd)/$y ~/$y
+                fi
+		
+	    else
+		if [ -d ~/$y ] # is $y a dir?
+		then
+		    link_dir $y
+		else
+		echo "linking $y in ~/"
+		ln -s $(pwd)/$y ~/$y
+		fi
+            fi
+        fi
+    done
+}
+
+function backup_dir {
+    if [ -e ~/.backupDotfiles ]
+    then
+        echo ".backupDotfiles detected"
+    else
+        echo "Creating .backupDotfiles dir in ~/"
+        mkdir ~/.backupDotfiles
+    fi
+}
+
+function link_dir {
+    mkdir ~/$1
+    cd $1
+    for f in $(ls)
+    do
+	echo "creating link to $f in ~/$1"
+	ln -s $(pwd)/$f ~/$1/$f
+    done
+    cd -
+}
+
+# Main
+
+check_src
