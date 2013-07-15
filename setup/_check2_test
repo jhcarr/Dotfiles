@@ -1,0 +1,61 @@
+#! /bin/zsh
+
+## Justin Carr
+## 7/2/2013
+
+## /Dotfiles/_check2_test
+## Tests the features provided by the _check2 script
+
+# Globals
+
+NUM_RUN=0;
+NUM_PASSED=0;
+
+# Functions
+
+function help_text {
+
+    echo "_check2_test calls _check2 for the purpose of validating script performance."
+    echo 
+
+}
+
+function test_invalid_args {
+    
+    ./_check2 > /dev/null
+    if [ 0 -ne $? ]
+    then
+        echo "test_invalid_args failed"
+    else
+        NUM_PASSED++;
+    fi
+
+    NUM_RUN++;
+}
+
+function test_valid_check {
+
+    #Create .tmp file to compare program output
+    #Pipe the program output into the file
+    if [ 0 -ne $? ]
+
+    then
+        echo "test_valid_check failed"
+    else
+        NUM_PASSED++;
+    fi
+
+    #Compare file output to generated output
+    #Destroy .tmp file 
+
+    NUM_RUN++;
+}
+
+# Main {
+
+test_invalid_args
+
+echo "Tests passed: $NUM_PASSED"
+echo "Tests run     $NUM_RUN"
+
+# }

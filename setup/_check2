@@ -1,0 +1,117 @@
+#! /bin/zsh
+
+## Justin Carr
+## 7/2/2013
+
+## /Dotfiles/_check2
+## Identifies and prints files from Dotfiles/src/
+
+# Globals
+
+PROJ_DIR="uninit"
+DEBUG=true
+CHECK_ONLY=true
+DOTFILES=()
+BACKUP_TARGETS=()
+
+#Functions
+
+function help_text {
+
+    echo "_check2 requires either:"
+    echo "-c :: check state of /Dotfiles/src/"
+    echo "-b :: check state of /Dotfiles/src/ and backup local versions to ~/.backupDotfiles"
+    echo
+
+}
+
+function check_src {
+
+    cd ./src/
+    if $DEBUG
+    then
+        pwd
+        ls -al
+    fi
+
+    while read -r -d $'\0' # Read should break the find input by null character 
+    do
+        DOTFILES+=("$REPLY")
+    done < <(find . ! -name . -prune -print0)
+
+    echo
+    echo "_check2 found:"
+    for n in $DOTFILES
+    do
+        cd
+        if [ -e $n ] # if there is already a version of $n in the home directory:
+        then
+            echo "$n -- local version found in home directory."
+            BACKUP_TARGETS+=$n
+        else
+            echo "$n"
+        fi
+        cd -
+    done
+
+}
+
+# Main {
+
+echo
+
+if $DEBUG
+then
+    echo "Begin main in _check2..."
+fi
+
+if [ $# -ne 1 ]
+then
+    echo "INVALID INVOCATION OF _check2: $# arguments"
+    help_text
+    exit 1
+fi
+
+while getopts ":cb" opt;
+do
+    case $opt in
+        c)
+            # CHECK_ONLY=true; (default)
+            echo "Checking /Dotfiles/src/ ..."
+            break
+            ;;
+        b)
+            CHECK_ONLY=false;
+            echo "Check and backup has not yet been implemented."
+            echo "Aborting..."
+            exit 1
+            break
+            ;;
+        \?)
+            echo "INVALID INVOCATION OF _check2: $OPTARG"
+            help_text
+            exit 1
+            ;;
+    esac
+done
+
+cd .. # /Dotfiles/setup --> /Dotfiles/
+PROJ_DIR=$(pwd)
+
+check_src
+if ! $CHECK_ONLY
+then
+    do_backup
+fi
+
+if [ $(pwd) != $PROJ_DIR ]
+then
+    cd $PROJ_DIR
+fi
+
+if $DEBUG
+then
+    echo "End main in _check2."
+fi
+
+# }
