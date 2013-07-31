@@ -19,8 +19,13 @@ help: usage
 ## ACTIONS
 
 check:
-	./setup/_check2 -c
+	zsh _check2 -c
 
 backup:
+	zsh _check2 -b
 
 link:
+	zsh _check2 -l
+
+purge:	
+	zsh _purgeBackups

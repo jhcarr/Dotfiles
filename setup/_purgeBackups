@@ -1,0 +1,42 @@
+#! /bin/zsh
+
+## Justin Carr
+## 7/30/2013
+
+## /Dotfiles/_purgeBackups
+## Safely eliminates all but the ($1)th most recent backup files
+
+# Globals
+
+BACKUP_DIR_NAME=~/backupDotfiles;
+
+# Functions
+
+function help {
+
+    echo
+    echo "_purgeBackups"
+    echo
+    echo "A zsh script that safely purges backup dotfiles."
+    echo
+}
+
+function remove_empties {
+
+    cd $BACKUP_DIR_NAME;
+    echo "Removing empty backup directories:"
+    for e in $(ls -A $BACKUP_DIR_NAME)
+    do
+        echo $e
+        rmdir $e
+    done
+
+}
+
+# Main {
+set -e
+
+remove_empties
+
+# } End Main
+
