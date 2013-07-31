@@ -15,20 +15,27 @@ DOTFILES=()
 BACKUP_TARGETS=()
 BACKUP_DIR_NAME=~/backupDotfiles
 
-#Functions
+# Functions
 
 function help_text {
 
+    echo
+    echo "_check2"
+    echo
+    echo "A zsh script that safely symlinks the configurations found in the Dotfiles project to "
+    echo "their rightful place on the home drive."
+    echo
+    echo "USAGE:"
     echo "_check2 requires either:"
-    echo "-c :: check state of /Dotfiles/src/"
-    echo "-b :: check state of /Dotfiles/src/ and backup local versions to ~/.backupDotfiles"
+    echo "-c :: Check for local versions of files from /Dotfiles/src/ in the home directory."
+    echo "-l :: Do -c, backup local versions found by -c, and link dotfiles from /Dotfiles/src to the home directory."
     echo
 
 }
 
 function check_src {
 
-    cd ./src/
+    cd $PROJ_DIR/src/
     if $DEBUG
     then
         pwd
@@ -53,16 +60,19 @@ function check_src {
     done
      
     echo
-    echo "[ FOUND ]"
+    echo "| FOUND: "
     for n in $DOTFILES
     do
-        echo $n
+        echo "| $n"
     done
-    echo "[ REPLACE ]"
+    echo
+
+    echo "| REPLACE: "
     for n in $BACKUP_TARGETS
     do
-        echo $n
+        echo "| $n"
     done
+    echo 
 
 }
 
@@ -71,15 +81,18 @@ function create_backup_dir {
     if $DEBUG
     then 
         echo "Begin create_backup_dir..."
+        echo
     fi
 
     if [ -e $BACKUP_DIR_NAME ]
     then
         echo "$BACKUP_DIR_NAME found in home directory."
         echo "Using existing $BACKUP_DIR_NAME"
+        echo
     else
         echo "$BACKUP_DIR_NAME not found in home directory."
         echo "Creating $BACKUP_DIR_NAME"
+        echo
         mkdir $BACKUP_DIR_NAME
     fi
 
@@ -91,25 +104,61 @@ function create_backup_dir {
 
 function backup_local_dotfiles {
 
+    local run_results=$(date +"%m_%d_%Y_%S")
+
     if $DEBUG
     then
         echo "Begin backup_local_dotfiles..."
+        echo "The results of this run can be found in:"
+        echo "$BACKUP_DIR_NAME/$run_results"
+        echo
     fi
-
-    local run_results=$(date)
 
     cd $BACKUP_DIR_NAME
     mkdir $run_results
     cd
     
-    for n in $BACKUP_FILES
+    for n in $BACKUP_TARGETS
     do
-        mv $n ~/$BACKUP_DIR_NAME/$run_results/
+	
+	echo "moving $n to $BACKUP_DIR_NAME/$run_results/"
+	if [ -d $n ]
+	then
+	    cp -r $n $BACKUP_DIR_NAME/$run_results/
+	    rm -r $n
+	else
+            mv $n $BACKUP_DIR_NAME/$run_results/
+	fi
+
     done
     
     if $DEBUG
     then
         echo "End backup_local_dotfiles."
+        echo
+    fi
+
+}
+
+function link_dotfiles {
+
+    if $DEBUG
+    then
+        echo "Begin link_dotfiles..."
+        echo
+    fi
+    
+    cd 
+    for d in $DOTFILES
+    do
+	echo "Linking $d from $PROJ_DIR/src/"
+        ln -s $PROJ_DIR/src/$d ~/
+    done
+
+    if $DEBUG
+    then
+        echo "End link_dotfiles"
+        echo
     fi
 
 }
@@ -121,6 +170,7 @@ set -e
 if $DEBUG
 then
     echo "Begin main in _check2..."
+    echo
 fi
 
 if [ $# -ne 1 ]
@@ -130,16 +180,27 @@ then
     exit 1
 fi
 
-while getopts ":cb" opt;
+cd .. # /Dotfiles/setup --> /Dotfiles/
+PROJ_DIR=$(pwd)
+
+while getopts ":cbl" opt;
 do
     case $opt in
         c)
-            # CHECK_ONLY=true; (default)
-            echo "Checking /Dotfiles/src/ ..."
+            check_src
             break
             ;;
         b)
-            CHECK_ONLY=false;
+            check_src
+            create_backup_dir
+            backup_local_dotfiles
+            break
+            ;;
+        l)
+            check_src
+            create_backup_dir
+            backup_local_dotfiles
+            link_dotfiles
             break
             ;;
         \?)
@@ -150,23 +211,9 @@ do
     esac
 done
 
-cd .. # /Dotfiles/setup --> /Dotfiles/
-PROJ_DIR=$(pwd)
-
-check_src
-if ! $CHECK_ONLY
-then
-    create_backup_dir
-fi
-
-if [ $(pwd) != $PROJ_DIR ]
-then
-    cd $PROJ_DIR
-fi
-
 if $DEBUG
 then
     echo "End main in _check2."
 fi
 
-# }
+# } End Main
