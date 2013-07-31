@@ -8,54 +8,59 @@
 
 # Globals
 
-NUM_RUN=0;
-NUM_PASSED=0;
+declare -i NUM_RUN=0;
+declare -i NUM_PASSED=0;
 
 # Functions
 
 function help_text {
 
-    echo "_check2_test calls _check2 for the purpose of validating script performance."
-    echo 
+    echo "_check2_test calls _check2 for the purpose of validating script performance.";
+    echo ;
 
 }
 
 function test_invalid_args {
     
-    ./_check2 > /dev/null
-    if [ 0 -ne $? ]
+    echo "test_invalid_args:";
+    ./_check2 > /dev/null;
+    if [ 0 -ne $? ];
     then
-        echo "test_invalid_args failed"
+        echo "test_invalid_args failed.";
     else
-        NUM_PASSED++;
+        NUM_PASSED+=1;
     fi
 
-    NUM_RUN++;
+    NUM_RUN+=1;
 }
 
 function test_valid_check {
 
+    echo "test_valid_check:";
+
     #Create .tmp file to compare program output
     #Pipe the program output into the file
+    touch test_valid_check.tmp;
+
     if [ 0 -ne $? ]
 
     then
-        echo "test_valid_check failed"
+        echo "test_valid_check failed";
     else
-        NUM_PASSED++;
+        NUM_PASSED+=1;
     fi
 
     #Compare file output to generated output
     #Destroy .tmp file 
 
-    NUM_RUN++;
+    NUM_RUN+=1;
 }
 
 # Main {
 
-test_invalid_args
+test_invalid_args;
 
-echo "Tests passed: $NUM_PASSED"
-echo "Tests run     $NUM_RUN"
+echo "Tests passed: $NUM_PASSED";
+echo "Tests run:    $NUM_RUN";
 
 # }
