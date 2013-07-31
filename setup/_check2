@@ -13,6 +13,7 @@ DEBUG=true
 CHECK_ONLY=true
 DOTFILES=()
 BACKUP_TARGETS=()
+BACKUP_DIR_NAME=~/backupDotfiles
 
 #Functions
 
@@ -36,29 +37,86 @@ function check_src {
 
     while read -r -d $'\0' # Read should break the find input by null character 
     do
-        DOTFILES+=("$REPLY")
+    DOTFILES+=("$REPLY")
     done < <(find . ! -name . -prune -print0)
 
-    echo
-    echo "_check2 found:"
-    for n in $DOTFILES
+    for d in $DOTFILES
     do
-        cd
-        if [ -e $n ] # if there is already a version of $n in the home directory:
+        # Check to see if there's already a file with this name in the
+        # home directory
+        cd 
+        if [ -e $d ]
         then
-            echo "$n -- local version found in home directory."
-            BACKUP_TARGETS+=$n
-        else
-            echo "$n"
+            BACKUP_TARGETS+=$d
         fi
         cd -
     done
+     
+    echo
+    echo "[ FOUND ]"
+    for n in $DOTFILES
+    do
+        echo $n
+    done
+    echo "[ REPLACE ]"
+    for n in $BACKUP_TARGETS
+    do
+        echo $n
+    done
+
+}
+
+function create_backup_dir {
+    
+    if $DEBUG
+    then 
+        echo "Begin create_backup_dir..."
+    fi
+
+    if [ -e $BACKUP_DIR_NAME ]
+    then
+        echo "$BACKUP_DIR_NAME found in home directory."
+        echo "Using existing $BACKUP_DIR_NAME"
+    else
+        echo "$BACKUP_DIR_NAME not found in home directory."
+        echo "Creating $BACKUP_DIR_NAME"
+        mkdir $BACKUP_DIR_NAME
+    fi
+
+    if $DEBUG
+    then 
+        echo "End create_backup_dir..."
+    fi
+}
+
+function backup_local_dotfiles {
+
+    if $DEBUG
+    then
+        echo "Begin backup_local_dotfiles..."
+    fi
+
+    local run_results=$(date)
+
+    cd $BACKUP_DIR_NAME
+    mkdir $run_results
+    cd
+    
+    for n in $BACKUP_FILES
+    do
+        mv $n ~/$BACKUP_DIR_NAME/$run_results/
+    done
+    
+    if $DEBUG
+    then
+        echo "End backup_local_dotfiles."
+    fi
 
 }
 
 # Main {
 
-echo
+set -e
 
 if $DEBUG
 then
@@ -82,9 +140,6 @@ do
             ;;
         b)
             CHECK_ONLY=false;
-            echo "Check and backup has not yet been implemented."
-            echo "Aborting..."
-            exit 1
             break
             ;;
         \?)
@@ -101,7 +156,7 @@ PROJ_DIR=$(pwd)
 check_src
 if ! $CHECK_ONLY
 then
-    do_backup
+    create_backup_dir
 fi
 
 if [ $(pwd) != $PROJ_DIR ]
