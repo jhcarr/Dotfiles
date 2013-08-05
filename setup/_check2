@@ -22,8 +22,7 @@ function help_text {
     echo
     echo "_check2"
     echo
-    echo "A zsh script that safely symlinks the configurations found in the Dotfiles project to "
-    echo "their rightful place on the home drive."
+    echo "A zsh script that safely symlinks the configurations found in the Dotfiles project to their rightful place on the home drive."
     echo
     echo "USAGE:"
     echo "_check2 requires either:"
