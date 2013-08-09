@@ -19,6 +19,7 @@
                       rainbow-delimiters
                       nrepl
                       auto-complete ac-nrepl
+                      evil
                       ))
 
 (dolist (p my-packages)
@@ -39,3 +40,31 @@
 (require 'rainbow-delimiters)
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 
+;;; Whitespace highlighting
+;(require 'highlight-chars)
+
+;;; Evil mode
+(require 'evil)
+;(evil-mode t)
+
+;;; paredit
+;(add-hook 'clojure-mode-hook 'paredit-mode)
+;(add-hook 'nrepl-mode-hook 'paredit-mode)
+(global-set-key [f7] 'paredit-mode)
+
+;;; nrepl
+(add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
+(add-to-list 'same-window-buffer-names "*nrepl*")
+(add-hook 'nrepl-mode-hook 'paredit-mode)
+(global-set-key [f9] 'nrepl-jack-in)
+
+;; Auto complete
+(require 'auto-complete-config)
+(ac-config-default)
+(define-key ac-completing-map "\M-/" 'ac-stop) ; use M-/ to stop
+                              ; completion
+;; ac-nrepl
+(require 'ac-nrepl)
+(add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
+(add-hook 'nrepl-interaction-mode-hook 'ac-nrepl-setup)
+(eval-after-load "auto-complete" '(add-to-list 'ac-modes 'nrepl-mode))
