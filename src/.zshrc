@@ -48,3 +48,6 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 export EDITOR=emacs
 export PATH=/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
