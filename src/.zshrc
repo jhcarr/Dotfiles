@@ -47,7 +47,14 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 export EDITOR=emacs
-export PATH=/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin
+export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin"
+
+### Search /usr/local/bin first for custom tools
+export PATH="/usr/local/bin:$PATH"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+### Sencha Cmd tools
+export PATH="$PATH:/Users/jc_devkid/bin/Sencha/Cmd/4.0.2.67"
+export SENCHA_CMD_3_0_0="/Users/jc_devkid/bin/Sencha/Cmd/4.0.2.67"
