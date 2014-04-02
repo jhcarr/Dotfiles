@@ -56,5 +56,9 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
 
 ### Sencha Cmd tools
-export PATH="$PATH:/Users/jc_devkid/bin/Sencha/Cmd/4.0.2.67"
-export SENCHA_CMD_3_0_0="/Users/jc_devkid/bin/Sencha/Cmd/4.0.2.67"
+SENCHA_CMD_3_0_0="/Users/jc_devkid/bin/Sencha/Cmd/4.0.2.67"
+export PATH="$PATH:$SENCHA_CMD_3_0_0"
+
+### Android
+ANDROID_CMD="/Users/jc_devkid/Library/Developer/Android/adt-bundle-mac-x86_64-20131030/sdk/tools"
+export PATH="$PATH:$ANDROID_CMD"
