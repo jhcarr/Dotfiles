@@ -1,0 +1,6 @@
+# Dotfiles Gitignore
+
+## Emacs package directories
+src/.emacs.d/auto-save-list/
+src/.emacs.d/elpa/
+	
