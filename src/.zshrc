@@ -11,6 +11,9 @@ ZSH_THEME="gallois"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias emacs="emacs -nw"
+alias slog="svn log -l 10"
+alias slogv="svn log -l 5 -v"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -41,24 +44,22 @@ ZSH_THEME="gallois"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git rvm)
+plugins=(git rvm svn-fast-info svn)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export EDITOR=emacs
-export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin"
+export JAVA_HOME="/usr/lib/jdk1.8.0_121"
+export EDITOR="emacs -nw"
+export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:$JAVA_HOME/bin"
 
 ### Search /usr/local/bin first for custom tools
-export PATH="/usr/local/bin:$PATH"
+export PATH="$PATH:/usr/local/bin"
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
-### Sencha Cmd tools
-SENCHA_CMD_3_0_0="/Users/jc_devkid/bin/Sencha/Cmd/4.0.2.67"
-export PATH="$PATH:$SENCHA_CMD_3_0_0"
-
-### Android
-ANDROID_CMD="/Users/jc_devkid/Library/Developer/Android/adt-bundle-mac-x86_64-20131030/sdk/tools"
-export PATH="$PATH:$ANDROID_CMD"
+### Tools Directory
+export MY_TOOLS="/home/justin-c/Tools"
+export SQL_DEVELOPER="$MY_TOOLS/sqldeveloper"
+export CATALINA_HOME="$MY_TOOLS/apache-tomcat-8.5.11"
+export NODE="$MY_TOOLS/node-v6.9.5-linux-x64"
+export ANT_HOME="$MY_TOOLS/apache-ant-1.10.1"
+export PATH="$PATH:$MY_TOOLS:$SQL_DEVELOPER:$CATALINA_HOME:$NODE/bin:$ANT_HOME/bin"

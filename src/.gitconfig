@@ -1,9 +1,12 @@
 [user]
-	name = Justin Carr
+	name = jhcarr
 [color]
 	ui = auto
 [alias]
         swag=fetch --all
         cff=merge --ff-only
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-        flossy=add -u
+[push]
+	default = simple
+[diff]
+	tool = kdiff3
