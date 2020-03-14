@@ -1,3 +1,5 @@
-# Ignore files managed by Emacs package manager:
+# Dotfiles Gitignore
+
+## Emacs package directories
 !init.el
-.emacs.d
+src/.emacs.d/
