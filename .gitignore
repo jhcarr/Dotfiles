@@ -1,0 +1,3 @@
+# Ignore files managed by Emacs package manager:
+!init.el
+.emacs.d

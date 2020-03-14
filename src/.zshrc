@@ -41,7 +41,7 @@ ZSH_THEME="gallois"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git rvm)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -56,9 +56,12 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
 
 ### Sencha Cmd tools
-SENCHA_CMD_3_0_0="/Users/jc_devkid/bin/Sencha/Cmd/4.0.2.67"
+SENCHA_CMD_3_0_0="/Users/jc_devkid/bin/Sencha/Cmd/5.1.1.39"
 export PATH="$PATH:$SENCHA_CMD_3_0_0"
 
 ### Android
 ANDROID_CMD="/Users/jc_devkid/Library/Developer/Android/adt-bundle-mac-x86_64-20131030/sdk/tools"
 export PATH="$PATH:$ANDROID_CMD"
+
+### Aliases
+alias sencha-old="~/bin/Sencha/Cmd/5.0.1.231/sencha"

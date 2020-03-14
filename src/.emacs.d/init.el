@@ -20,6 +20,7 @@
                       nrepl
                       auto-complete ac-nrepl
                       evil
+                      editorconfig
                       ))
 
 (dolist (p my-packages)
@@ -59,10 +60,11 @@
 (global-set-key [f9] 'nrepl-jack-in)
 
 ;; Auto complete
+; use M-/ to stop completion
 (require 'auto-complete-config)
 (ac-config-default)
-(define-key ac-completing-map "\M-/" 'ac-stop) ; use M-/ to stop
-                              ; completion
+(define-key ac-completing-map "\M-/" 'ac-stop)
+
 ;; ac-nrepl
 (require 'ac-nrepl)
 (add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
