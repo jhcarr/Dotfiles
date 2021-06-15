@@ -49,7 +49,7 @@ plugins=(git rvm svn-fast-info svn)
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export JAVA_HOME="/usr/lib/jdk1.8.0_121"
+export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 export EDITOR="emacs -nw"
 export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:$JAVA_HOME/bin"
 
@@ -57,9 +57,8 @@ export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:$JAVA_HOME/b
 export PATH="$PATH:/usr/local/bin"
 
 ### Tools Directory
-export MY_TOOLS="/home/justin-c/Tools"
+export MY_TOOLS="/home/jay/Tools"
 export SQL_DEVELOPER="$MY_TOOLS/sqldeveloper"
-export CATALINA_HOME="$MY_TOOLS/apache-tomcat-8.5.11"
+export CATALINA_HOME="$MY_TOOLS/apache-tomcat-9.0.46"
 export NODE="$MY_TOOLS/node-v6.9.5-linux-x64"
-export ANT_HOME="$MY_TOOLS/apache-ant-1.10.1"
-export PATH="$PATH:$MY_TOOLS:$SQL_DEVELOPER:$CATALINA_HOME:$NODE/bin:$ANT_HOME/bin"
+export PATH="$PATH:$MY_TOOLS:$SQL_DEVELOPER:$CATALINA_HOME:$NODE/bin"
